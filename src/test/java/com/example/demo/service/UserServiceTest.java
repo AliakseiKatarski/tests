@@ -7,6 +7,8 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.exception.NoSuchUserException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -69,10 +71,11 @@ public class UserServiceTest {
 
     }
 
-    @Test
-    void saveUserThrowsRuntimeExceptionIfUserDtoIsNull() {
+    @ParameterizedTest
+    @NullSource
+    void saveUserThrowsRuntimeExceptionIfUserDtoIsNull(UserDto dto) {
         var runtimeException = assertThrows(RuntimeException.class,
-                () -> service.saveUser(null));
+                () -> service.saveUser(dto));
         assertEquals("User cant be null", runtimeException.getMessage());
     }
 
